@@ -1,0 +1,23 @@
+{
+  "name": "wspbot",
+  "version": "1.0.0",
+  "engines": {
+    "node": "14.16.0"
+  },
+  "description": "bot de wsp",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "lucas leonel lopez (trefu)",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "mongoose": "^5.12.5",
+    "node-fetch": "^2.6.1",
+    "qrcode-terminal": "^0.12.0",
+    "rpg-dice-roller": "^4.5.2",
+    "whatsapp-web.js": "^1.12.5"
+  }
+}

@@ -32,6 +32,30 @@ const PersonajesSchema = new Schema({
     clase: {
         type: String
 
+    },
+    stats: {
+        type: Object,
+        fuerza: {
+            type: Number
+        },
+        destreza: {
+            type: Number
+        },
+        constitucion: {
+            type: Number
+
+        },
+        inteligencia: {
+            type: Number
+
+        },
+        sabiduria: {
+            type: Number
+
+        },
+        carisma: {
+            type: Number
+        }
     }
 
 })

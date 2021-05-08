@@ -1,5 +1,9 @@
+const {
+    Personajes
+} = require("./models")
+
 class player {
-    constructor(owner, name, hitpoints, maxHitpoints, exp, level, clase, ca) {
+    constructor(owner, name) {
         this.owner = owner,
             this.name = name,
             this.hitpoints = hitpoints,
@@ -17,9 +21,9 @@ class player {
         if (hitpoints <= 0) this.hitpoints = 0;
         return this.hitpoints;
     }
-    aca() {
-        console.log("acatoy");
-        return
+    init() {
+        console.log(Personajes)
+
     }
 }
 

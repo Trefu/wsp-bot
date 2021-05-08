@@ -6,7 +6,13 @@ const {
     player
 } = require('./rpg-wsp/player');
 
+String.prototype.startsWithCommand = function (list) {
+    const str = this.split(" ");
+    const firstWord = str[0]
 
+    if (list.every(c => c !== firstWord)) return false;
+    return true;
+}
 
 
 
@@ -52,11 +58,10 @@ const savePlayer = function (pj) {
         .catch(e => console.log(e))
 
 }
-const getPlayers = async function () {
-    const personajes = await Personajes.find();
-    return personajes;
-}
 
+const printPcStats = function (pc) {
+    return `*${pc.name.toUpperCase()}*\n♥Salud: ${pc.hitpoints}\n✍🏿Dueño: ${pc.owner}\n⏫Nivel: ${pc.level}\n🛡Armadura: ${pc.ca}\n👁Experiencia: ${pc.exp}\n`
+}
 const actChat = function (chat, players) {
     if (chat.isGroup) {
         var newDescription = "";
@@ -67,7 +72,11 @@ const actChat = function (chat, players) {
         return
     }
 }
-
+const playersNames = async function () {
+    let playersNames = await Personajes.find({}, 'name');
+    playersNames = playersNames.map(obj => obj.name);
+    return playersNames
+}
 
 
 
@@ -80,6 +89,6 @@ module.exports = {
     getRandomValueFromArr,
     randomNum,
     printTrackeables,
-    getPlayers
-
+    playersNames,
+    printPcStats
 }

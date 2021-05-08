@@ -17,6 +17,10 @@ const PersonajesSchema = new Schema({
     maxHitpoints: {
         type: Number
     },
+    temporalHitpoins: {
+        type: Number,
+        default: 0
+    },
     exp: {
         type: Number,
         default: 0
@@ -32,6 +36,10 @@ const PersonajesSchema = new Schema({
     clase: {
         type: String
 
+    },
+    avatar: {
+        data: Buffer,
+        contentType: String
     },
     stats: {
         type: Object,

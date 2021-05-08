@@ -129,7 +129,6 @@ client.on("message", async msg => {
             }
 
         }
-        if (msg.body.startsWith(prefix)) return console.log("prefixdeado")
 
         switch (command) {
             case "ver":
@@ -140,20 +139,25 @@ client.on("message", async msg => {
                     "name": nameToFind
                 });
                 const PcFinded = searchPc[0];
-                console.log(PcFinded)
-                var characterMsgStats = printPcStats(PcFinded)
+
+                //crea el mensaje de tipo MEDIA con el tipo de formato, el codigo base64 traido de lab ase de datos y pone titulo al archivo
+                const avatar = new MessageMedia("image", PcFinded.avatar, PcFinded.name);
+                //texto que acompaña la imagen
+                var characterMsgStats = printPcStats(PcFinded);
+                //por cada stat del personaje, lo concatena al texto de acompañamiento
                 for (const s in PcFinded.stats) {
                     characterMsgStats = characterMsgStats.concat(
                         `\n${s.toUpperCase()} ${PcFinded.stats[s]}\n`
                     )
 
                 }
-                chat.sendMessage(characterMsgStats)
-
-
-
+                chat.sendMessage(characterMsgStats, {
+                    media: avatar
+                })
                 break;
-
+            case "test":
+                console.log(PcFinded)
+                break;
             default:
                 console.log("error, no hay conicindiencai de comandos en el switch")
         }

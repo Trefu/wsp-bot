@@ -60,7 +60,7 @@ const savePlayer = function (pj) {
 }
 
 const printPcStats = function (pc) {
-    return `*${pc.name.toUpperCase()}*\n♥Salud: ${pc.hitpoints}\n✍🏿Dueño: ${pc.owner}\n⏫Nivel: ${pc.level}\n🛡Armadura: ${pc.ca}\n👁Experiencia: ${pc.exp}\n`
+    return `*${pc.name.toUpperCase()}*\n💔Salud Actual: ${pc.hitpoints}\n❤Salud Maxima: ${pc.maxHitpoints}\n✍🏿Dueño: ${pc.owner}\n⏫Nivel: ${pc.level}\n🛡Armadura: ${pc.ca}\n👁Experiencia: ${pc.exp}\n`
 }
 const actChat = function (chat, players) {
     if (chat.isGroup) {

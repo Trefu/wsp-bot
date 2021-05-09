@@ -16,14 +16,15 @@ const {
 } = require("./config.json")
 const {
     playersNames,
-    printPcStats
+    printPcStats,
+    modifier
 } = require("./functionsTrefu");
 const {
     rpg
 } = require("./rpg-wsp/Base");
 
 
-const commands = [prefix, diceCall, "ver"];
+const commands = [prefix, diceCall, "ver", "Ver", "R", "r", "test", "recibe"];
 
 const dndApiUrl = "https://www.dnd5eapi.co";
 const ID_TREFU = process.env.ID_TREFU;
@@ -113,22 +114,11 @@ client.on('ready', async () => {
 
 
 client.on("message", async msg => {
+
         if (!msg.body.startsWithCommand(commands)) return;
         const args = msg.body.trim().split(" ")
         const command = args.shift().toLowerCase();
         const chat = await msg.getChat();
-        console.log(command)
-        if (msg.body.startsWith(diceCall)) {
-            const tirada = args.shift()
-            const accion = args.join(" ") || ""
-            try {
-                const diceRoll = new rpgDiceRoller.DiceRoll(tirada)
-                msg.reply(`${diceRoll.output} ${accion}`)
-            } catch (error) {
-                console.log(error)
-            }
-
-        }
 
         switch (command) {
             case "ver":
@@ -147,7 +137,7 @@ client.on("message", async msg => {
                 //por cada stat del personaje, lo concatena al texto de acompañamiento
                 for (const s in PcFinded.stats) {
                     characterMsgStats = characterMsgStats.concat(
-                        `\n${s.toUpperCase()} ${PcFinded.stats[s]}\n`
+                        `\n${s.toUpperCase()}: ${PcFinded.stats[s]} (${modifier(PcFinded.stats[s])})\n`
                     )
 
                 }
@@ -155,9 +145,54 @@ client.on("message", async msg => {
                     media: avatar
                 })
                 break;
-            case "test":
-                console.log(PcFinded)
+            case diceCall:
+                const tirada = args.shift()
+                const accion = args.join(" ") || ""
+                try {
+                    const diceRoll = new rpgDiceRoller.DiceRoll(tirada)
+                    msg.reply(`${diceRoll.output} ${accion}`)
+                } catch (error) {
+                    console.log(error)
+                }
+
                 break;
+            case "recibe":
+                if (!MY_IDS.includes(msg.author)) return msg.reply("no te desubiques manito");
+
+                const dmgOrHeal = args.shift();
+                const name = args.shift();
+                const n = parseInt(args.shift());
+
+                if (isNaN(n)) return msg.reply("No se recibio numero");
+                console.log(`arg ${dmgOrHeal} nombre ${name} numero ${n}`)
+                var Pc = await Personajes.findOne({
+                    "name": name
+                }, "name owner hitpoints maxHitpoints")
+
+                if (dmgOrHeal === "daño") {
+                    Pc.hitpoints -= n;
+                    if (Pc.hitpoints <= 0) {
+                        Pc.hitpoints = 0;
+                        chat.sendMessage(`${Pc.name} cae inconsciente`)
+                    }
+                    Pc.save(e => {
+                        if (e) return console.log(e);
+                        msg.reply(`${Pc.name} dañado, salud actual: ${Pc.hitpoints}`)
+                    });
+
+                } else if (dmgOrHeal === "cura" || dmgOrHeal === "curacion") {
+                    Pc.hitpoints += n;
+                    if (Pc.hitpoints >= Pc.maxHitpoints) {
+                        Pc.hitpoints = Pc.maxHitpoints;
+                    }
+                    Pc.save(e => {
+                        if (e) return console.log(e);
+                        msg.reply(`${Pc.name} curado, salud actual: ${Pc.hitpoints}`)
+
+                    });
+                }
+                break;
+
             default:
                 console.log("error, no hay conicindiencai de comandos en el switch")
         }

@@ -78,7 +78,10 @@ const playersNames = async function () {
     return playersNames
 }
 
-
+const modifier = num => {
+    const mod = Math.floor((num - 10) / 2)
+    return Math.sign(mod) === 1 ? "+" + mod : mod;
+}
 
 /* const getPersonajes = async function {
     const personajes = await
@@ -90,5 +93,6 @@ module.exports = {
     randomNum,
     printTrackeables,
     playersNames,
-    printPcStats
+    printPcStats,
+    modifier
 }

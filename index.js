@@ -77,7 +77,7 @@ db.on('error', error => {
 const client = new Client({
     puppeteer: {
         headless: false,
-        executablePath: "C:/Program Files/Google/Chrome/Application/Chrome"
+
     },
     session: sessionCfg
 });
@@ -158,39 +158,43 @@ client.on("message", async msg => {
                 break;
             case "recibe":
                 if (!MY_IDS.includes(msg.author)) return msg.reply("no te desubiques manito");
-
-                const dmgOrHeal = args.shift();
                 const name = args.shift();
+
+                var Pc = await Personajes.findOne({
+                    "name": name
+                }, "name owner hitpoints maxHitpoints exp");
+
+                if (!Pc) return msg.reply("No se encontro jugador");
+
+                const received = args.shift();
                 const n = parseInt(args.shift());
 
                 if (isNaN(n)) return msg.reply("No se recibio numero");
-                console.log(`arg ${dmgOrHeal} nombre ${name} numero ${n}`)
-                var Pc = await Personajes.findOne({
-                    "name": name
-                }, "name owner hitpoints maxHitpoints")
+                console.log(`arg ${received} nombre ${name} numero ${n}`)
 
-                if (dmgOrHeal === "daño") {
+                if (received === "exp" || received === "experiencia" || received === "xp") {
+                    Pc.exp += n;
+                    chat.sendMessage(`${Pc.name} Recibio ${n} de experiencia!, experiencia actual ${Pc.exp}`);
+                };
+                if (received === "daño") {
                     Pc.hitpoints -= n;
                     if (Pc.hitpoints <= 0) {
                         Pc.hitpoints = 0;
-                        chat.sendMessage(`${Pc.name} cae inconsciente`)
-                    }
-                    Pc.save(e => {
-                        if (e) return console.log(e);
                         msg.reply(`${Pc.name} dañado, salud actual: ${Pc.hitpoints}`)
-                    });
-
-                } else if (dmgOrHeal === "cura" || dmgOrHeal === "curacion") {
+                        chat.sendMessage(`${Pc.name} cae inconsciente`);
+                    };
+                } else if (received === "cura" || received === "curacion") {
                     Pc.hitpoints += n;
                     if (Pc.hitpoints >= Pc.maxHitpoints) {
                         Pc.hitpoints = Pc.maxHitpoints;
-                    }
-                    Pc.save(e => {
-                        if (e) return console.log(e);
-                        msg.reply(`${Pc.name} curado, salud actual: ${Pc.hitpoints}`)
+                    };
+                    msg.reply(`${Pc.name} curado, salud actual: ${Pc.hitpoints}`)
 
-                    });
-                }
+                };
+
+                Pc.save(e => {
+                    if (e) return console.log(e);
+                });
                 break;
 
             default:

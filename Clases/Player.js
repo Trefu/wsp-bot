@@ -1,8 +1,5 @@
-const {
-    Personajes
-} = require("./models")
 
-class player {
+class Character {
     constructor(owner, name) {
         this.owner = owner,
             this.name = name,
@@ -22,9 +19,9 @@ class player {
         return this.hitpoints;
     }
     init() {
-        console.log(Personajes)
+        console.log(this)
 
     }
 }
 
-module.exports.player = player;
+module.exports = Character;

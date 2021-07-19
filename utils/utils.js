@@ -1,18 +1,5 @@
-require('./index')
+const players = require('../models/players')
 
-const fetch = require("node-fetch");
-const Personajes = require("./rpg-wsp/models");
-const {
-    player
-} = require('./rpg-wsp/player');
-
-String.prototype.startsWithCommand = function (list) {
-    const str = this.split(" ");
-    const firstWord = str[0]
-
-    if (list.every(c => c !== firstWord)) return false;
-    return true;
-}
 
 function randomNum(num) {
     return Math.floor(Math.random() * num);
@@ -21,10 +8,6 @@ function randomNum(num) {
 function msgFrom(msg, id) {
     return msg.author == id
 };
-
-function sendPj(msg, playerDueño) {
-
-}
 
 function printPj(pj) {
     return `Nombre: ${pj.name}\nSalud: ${pj.hitpoints}\nCA: ${pj.ca}\nNivel: ${pj.level}\nEXP: ${pj.exp}\nClase: ${pj.clase}\n`
@@ -39,7 +22,7 @@ const getRandomValueFromArr = (arr) => {
 }
 
 const savePlayer = function (pj) {
-    const personaje = new Personajes(pj);
+    const personaje = new players(pj);
     personaje.save()
         .then(doc => console.log(doc))
         .catch(e => console.log(e))
@@ -60,7 +43,7 @@ const actChat = function (chat, players) {
     }
 }
 const playersNames = async function () {
-    let playersNames = await Personajes.find({}, 'name');
+    let playersNames = await players.find({}, 'name');
     playersNames = playersNames.map(obj => obj.name);
     return playersNames
 }
@@ -69,10 +52,6 @@ const modifier = num => {
     const mod = Math.floor((num - 10) / 2)
     return Math.sign(mod) === 1 ? "+" + mod : mod;
 }
-
-/* const getPersonajes = async function {
-    const personajes = await
-} */
 
 
 module.exports = {

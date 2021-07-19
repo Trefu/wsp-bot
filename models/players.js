@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const PersonajesSchema = new Schema({
+const PlayersSchema = new Schema({
     owner: {
         type: String
     },
@@ -63,9 +63,8 @@ const PersonajesSchema = new Schema({
             type: Number
         }
     }
-
 })
 
 
 
-module.exports = model('Personajes', PersonajesSchema);
+module.exports = mongoose.model('Players', PlayersSchema);

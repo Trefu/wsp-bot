@@ -14,19 +14,6 @@ String.prototype.startsWithCommand = function (list) {
     return true;
 }
 
-
-
-
-async function dameDolar() {
-    try {
-        const response = await fetch('https://www.dolarsi.com/api/api.php?type=valoresprincipales');
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.log(error)
-    }
-};
-
 function randomNum(num) {
     return Math.floor(Math.random() * num);
 };

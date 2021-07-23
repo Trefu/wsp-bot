@@ -19,11 +19,9 @@ if (fs.existsSync(SESSION_FILE_PATH)) {
 
 const { Client } = require("whatsapp-web.js");
 const { MessageMedia } = require("whatsapp-web.js");
-//BASE DE DATOS MOONGOSE--------------------------------------------------------
+
 
 require('./database')
-
-//-----------------------------------------------------------------------------
 // wsp web api pedrolopez github
 
 const client = new Client({

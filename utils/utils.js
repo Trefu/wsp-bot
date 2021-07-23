@@ -28,9 +28,16 @@ const savePlayer = function (pj) {
         .catch(e => console.log(e))
 
 }
-
 const printPcStats = function (pc) {
-    return `*${pc.name.toUpperCase()}*\n💔Salud Actual: ${pc.hitpoints}\n❤Salud Maxima: ${pc.maxHitpoints}\n✍🏿Dueño: ${pc.owner}\n⏫Nivel: ${pc.level}\n🛡Armadura: ${pc.ca}\n👁Experiencia: ${pc.exp}\n`
+    return `*${pc.name}*\n💔Salud Actual: ${pc.hit_points}\n❤Salud Maxima: ${pc.max_hit_points}\n⏫Nivel: ${pc.level}\n🛡Armadura: ${pc.ca}\n👁Experiencia: ${pc.exp}\n`
+}
+
+const printPcModifiers = (pc) => {
+    let txt = [];
+    for (const s in pc.stats) {
+        txt.push(`${s.toUpperCase()}: ${pc.stats[s]} (${modifier(pc.stats[s])})`);
+    }
+    return txt.join('\n')
 }
 const actChat = function (chat, players) {
     if (chat.isGroup) {
@@ -60,5 +67,6 @@ module.exports = {
     printTrackeables,
     playersNames,
     printPcStats,
-    modifier
+    modifier,
+    printPcModifiers
 }

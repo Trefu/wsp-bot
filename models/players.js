@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const { Inventory } = require('./inventory');
 
 const PlayersSchema = new Schema({
     owner: {
@@ -8,14 +9,14 @@ const PlayersSchema = new Schema({
     name: {
         type: String
     },
-    hitpoints: {
+    hit_points: {
         type: Number
 
     },
-    maxHitpoints: {
+    max_hit_points: {
         type: Number
     },
-    temporalHitpoins: {
+    temporal_hit_points: {
         type: Number,
         default: 0
     },
@@ -62,9 +63,18 @@ const PlayersSchema = new Schema({
         carisma: {
             type: Number
         }
+    },
+    inventory: {
+        type: Inventory
+    },
+    features: {
+        race_feature: [],
+        class_feature: [],
+        special_features: []
     }
+
 })
 
 
 
-module.exports = mongoose.model('Players', PlayersSchema);
+module.exports = mongoose.model('Players', PlayersSchema, 'personajes');

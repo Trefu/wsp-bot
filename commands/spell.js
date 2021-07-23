@@ -15,6 +15,7 @@ module.exports = async function (msg, args) {
         formated.tier = json.level;
         formated.school = json.school.name;
         formated.classes = json.classes.map(c => `*${c.name}*`).join(", ")
+        formated.higher_level = json.higher_level ? `\`\`\`${json.higher_level[0]}\`\`\`` : "";
         console.log(formated)
         return formated
     }
@@ -23,11 +24,13 @@ module.exports = async function (msg, args) {
     if (SPELL_NAME === "") return msg.reply("lol");
     const response = await fetch('https://www.dnd5eapi.co/api/spells/' + SPELL_NAME);
     const resJson = await response.json()
+
+    if (resJson.error) return msg.reply("Me pijeaste flaco *llora en una esquina*")
     const spellFormated = formatter(resJson);
 
     msg.reply(`
-    ${spellFormated.name}\n
-    _Tier:_ _${spellFormated.tier}_ _Escuela:_ _${spellFormated.school}_
+    ${spellFormated.name}
+    _Tier:_ _${spellFormated.tier}_ _Escuela:_ _${spellFormated.school}_\n
     Tiempo de casteo: ${spellFormated.casting_time}
     Componentes: ${spellFormated.components}
     Duración: ${spellFormated.duration}
@@ -35,8 +38,9 @@ module.exports = async function (msg, args) {
     Rango: ${spellFormated.range}
 
     ${spellFormated.description}
-   
-    \n
+
+    ${spellFormated.higher_level}
+
     ${spellFormated.ritual} ${spellFormated.concentration}`);
 }
 

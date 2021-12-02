@@ -21,11 +21,10 @@ module.exports = async function (msg, args) {
     }
 
     const SPELL_NAME = args.join("-")
-    if (SPELL_NAME === "") return msg.reply("lol");
+    if (SPELL_NAME === "") return msg.reply("No spell name");
     const response = await fetch('https://www.dnd5eapi.co/api/spells/' + SPELL_NAME);
     const resJson = await response.json()
-
-    if (resJson.error) return msg.reply("Me pijeaste flaco *llora en una esquina*")
+    if (resJson.error) return msg.reply("What do we broke?*")
     const spellFormated = formatter(resJson);
 
     msg.reply(`

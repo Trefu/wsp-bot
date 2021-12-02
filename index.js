@@ -15,7 +15,10 @@ if(fs.existsSync(SESSION_FILE_PATH)) {
 
 // Use the saved values
 const client = new Client({
-  session: sessionData
+  session: sessionData,
+  puppeteer: {
+    headless: false
+  }
 });
 
 client.on('qr', qr => {

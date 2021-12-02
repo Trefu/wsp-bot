@@ -16,7 +16,7 @@ module.exports = async function (msg, args) {
     }
     catch (e) {
         console.log(e)
-        msg.reply("algo salio mal xD")
+        msg.reply("what do we broke?")
     }
 
     /* 
